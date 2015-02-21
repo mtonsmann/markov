@@ -1,6 +1,7 @@
 #ifndef MODEL_H
 #define MODEL_H
 
+#include "map.h"
 #include <string>
 
 class brute_model {
@@ -13,5 +14,15 @@ private:
 	int order;
 };
 
-#endif
+class map_model {
+public:
+	map_model(std:string s, int k);
+	std::string generate(int size);
 
+private:
+	std::string data;
+	int order;
+	Map<std::string> map;
+}
+
+#endif

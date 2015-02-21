@@ -40,3 +40,10 @@ string brute_model::generate(int sz) {
 
 	return answer;
 }
+
+// Part I: A smarter approach
+// character generator using maps
+map_model::map_model(string s, int k) {
+	data = s;
+	order = k;
+}
