@@ -1,1 +1,3 @@
 this is a practice repo for my first time using githib
+
+I will be using it to write my 3rd assignment for data structures
