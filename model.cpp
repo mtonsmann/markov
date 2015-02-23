@@ -49,19 +49,22 @@ map_model::map_model(string s, int k) {
 
 	// populates the map with the grams and following chars
 	mapdata = data + data.substr(0, order); //wrap-around
+	string gram;
 	for (int i = 0; i < s.size(); i++) {
 		Vector<char> following;
-		following.add(i+order);
-		string gram = s.substr(i, i+order);
-		cout << "loop " << to_string(i) << endl;
+		following.add(data[i+order]);
+		gram = data.substr(i, order);
 
 		if (!map.containsKey(gram)) {
 			map.put(gram, following);
 		} else {
 			following = map.get(gram);
-			following.add(i+order);
+			following.add(data[i+order]);
 			map.put(gram, following);
 		}
+		//cout << data.substr(0,i) << endl;
+		//cout << "gram:" << gram << "_i:" << i << "_i+order:" << i+order << "_i to i+1"<< endl;
+		//cout << map.toString() << endl << endl;
 	}
 }
 

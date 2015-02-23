@@ -81,7 +81,6 @@ int main(int argc, char* argv[]) {
 
 	} else if (model_type == "map") {
 		map_model map_model(text.str(), k);
-		cout << "84 test" << endl;
 
 		clock_t t1, t2;
 		t1 = clock();
