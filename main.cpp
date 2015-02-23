@@ -55,7 +55,7 @@ int main(int argc, char* argv[]) {
 		cerr << "Error opening input file \"" << infile << "\"!" << endl;
 		return -1;
 	}
-	// get all strings; extra whitespace will be ignored 
+	// get all strings; extra whitespace will be ignored
 	ostringstream text;
 	while (!fin.eof()) {
 		string s;
@@ -74,17 +74,26 @@ int main(int argc, char* argv[]) {
 
 		clock_t t1, t2;
 		t1 = clock();
-		string result = model.generate(sz); 	
+		string result = model.generate(sz);
 		t2 = clock();
 		cout << result << endl;
 		cout << "Generated " << sz << " characters in " << (t2 - t1)/double(CLOCKS_PER_SEC) << " seconds." << endl;
 
-	}
-	else {
+	} else if (model_type == "map") {
+		map_model map_model(text.str(), k);
+		cout << "84 test" << endl;
+
+		clock_t t1, t2;
+		t1 = clock();
+		string result = map_model.generate(sz);
+		t2 = clock();
+		cout << result << endl;
+		cout << "Generated " << sz << " characters in " << (t2 - t1)/double(CLOCKS_PER_SEC) << " seconds." << endl;
+
+	} else {
 		cout << "That model is not yet implemented, sorry." << endl;
 		return -1;
 	}
-	
+
 	return 0;
 }
-

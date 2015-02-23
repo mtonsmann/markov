@@ -53,6 +53,7 @@ map_model::map_model(string s, int k) {
 		Vector<char> following;
 		following.add(i+order);
 		string gram = s.substr(i, i+order);
+		cout << "loop " << to_string(i) << endl;
 
 		if (!map.containsKey(gram)) {
 			map.put(gram, following);
@@ -82,4 +83,5 @@ string map_model::generate(int sz) {
 		answer += next;
 		seed = seed.substr(1) + next;
 	}
+	return answer;
 }
