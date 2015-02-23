@@ -46,4 +46,35 @@ string brute_model::generate(int sz) {
 map_model::map_model(string s, int k) {
 	data = s;
 	order = k;
+	for (int i = 0; i < s.size(); i++) {
+		Vector<char> following;
+		following.add(i+order);
+		string gram = s.substr(i, order);
+
+		if (!map.containsKey(gram)) {
+			map.put(gram, following);
+		} else {
+			following = map.get(gram)
+			map.put(s.substr(i, order))
+		}
+	}
+}
+
+string map_model::generate(int sz) {
+
+	// copy first k characters to back to simulate wrap-around
+	string working_data = data + data.substr(0, order);
+
+	// pick random k-character substring as initial seed
+	int start = rand() % data.length();
+	string seed = working_data.substr(start, order);
+
+	Vector<char> list;
+	string answer;
+	answer.reserve(sz);
+
+	for (int i = 0; i < sz; i++) {
+		char next = map.get(seed)[rand() % map.get(seed).size()];
+
+	}
 }

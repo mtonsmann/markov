@@ -22,7 +22,7 @@ public:
 private:
 	std::string data;
 	int order;
-	Map<std::string> map;
+	Map<std::string, Vector> map;
 }
 
 #endif
