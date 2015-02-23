@@ -62,9 +62,6 @@ map_model::map_model(string s, int k) {
 			following.add(data[i+order]);
 			map.put(gram, following);
 		}
-		//cout << data.substr(0,i) << endl;
-		//cout << "gram:" << gram << "_i:" << i << "_i+order:" << i+order << "_i to i+1"<< endl;
-		//cout << map.toString() << endl << endl;
 	}
 }
 
