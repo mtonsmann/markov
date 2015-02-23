@@ -2,6 +2,7 @@
 #define MODEL_H
 
 #include "map.h"
+#include "vector.h"
 #include <string>
 
 class brute_model {
@@ -16,14 +17,14 @@ private:
 
 class map_model {
 public:
-	map_model(std:string s, int k);
+	map_model(std::string s, int k);
 	std::string generate(int size);
 
 private:
 	std::string data;
 	int order;
 	std::string mapdata;
-	Map<std::string, Vector> map;
-}
+	Map<std::string, Vector<char> > map;
+};
 
 #endif
