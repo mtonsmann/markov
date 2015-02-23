@@ -46,16 +46,20 @@ string brute_model::generate(int sz) {
 map_model::map_model(string s, int k) {
 	data = s;
 	order = k;
+
+	// populates the map with the grams and following chars
+	mapdata = data + data.substr(0, order); //wrap-around
 	for (int i = 0; i < s.size(); i++) {
 		Vector<char> following;
 		following.add(i+order);
-		string gram = s.substr(i, order);
+		string gram = s.substr(i, i+order);
 
 		if (!map.containsKey(gram)) {
 			map.put(gram, following);
 		} else {
-			following = map.get(gram)
-			map.put(s.substr(i, order))
+			following = map.get(gram);
+			following.add(i+order);
+			map.put(gram, following);
 		}
 	}
 }
@@ -69,12 +73,13 @@ string map_model::generate(int sz) {
 	int start = rand() % data.length();
 	string seed = working_data.substr(start, order);
 
-	Vector<char> list;
 	string answer;
 	answer.reserve(sz);
 
 	for (int i = 0; i < sz; i++) {
+		// sets next to random char returned from map
 		char next = map.get(seed)[rand() % map.get(seed).size()];
-
+		answer += next;
+		seed = seed.substr(1) + next;
 	}
 }
