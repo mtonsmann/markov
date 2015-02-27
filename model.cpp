@@ -89,7 +89,7 @@ string map_model::generate(int sz) {
 //Part II: Markov Models for Words
 //word generator using maps
 word_model::word_model(string s, int k) {
-	data = s;
+	data = stov(s);
 	order= k;
 
 	// populates the map with with the grams and following words
@@ -159,4 +159,21 @@ string word_model::subWords(string data, int a, int b) {
 		s += ' ';
 	}
 	return s;
+}
+
+Vector<string> word_model::stov(string s) {
+	Vector<string> v;
+	int k = a;
+	for (int i = 0; i < s.size(); i++) {
+		string part;
+		int k = i;
+		//goes through word until space
+		while (data[k] != ' ') {
+			partfollow += (s[k]);
+			k++;
+		}
+		following.add(partfollow);
+		i = k+1;
+	}
+	return v;
 }

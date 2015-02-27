@@ -32,13 +32,17 @@ public:
 	word_model(std::string s, int k);
 	std::string generate(int size);
 	std::string subWords(std::string data, int a, int b);
+	Vector<std::string> stov(std::string s);
+
+	//TODO: overload vector + opperator
+	//TODO: overload string > operator
 
 private:
-	std::string data;
 	int order;
 	std::string mapdata;
 	Map<std::string, Vector<std::string> > map;
 	istringstream iss(char c);
+	Vector<std::string> data;
 };
 
 #endif

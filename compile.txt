@@ -1,0 +1,1 @@
+g++ -I../StanfordCPPLib/include -o markov main.cpp model.cpp ../StanfordCPPLib/lib/linux-64-bit/libStanfordCPPLib.a -std=c++11
