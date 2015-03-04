@@ -87,40 +87,67 @@ string map_model::generate(int sz) {
 }
 
 //Part II: Markov Models for Words
+// overloads < allowing use of maps of Vector<strings>
+bool operator <(const Vector<std::string> &a; const Vector<std::string> &b) {
+	if (a[0] < b[0]) {
+		return true;
+	} else if (a[0] == b[0]) {
+		if (a[1] < b[1]) {
+			return true;
+		} else {
+			return false;
+		}
+	} else {
+		return false;
+	}
+}
+
+
 //word generator using maps
 word_model::word_model(string s, int k) {
-	data = stov(s);
 	order= k;
 
-	// populates the map with with the grams and following words
-	mapdata = data + subWords(data, 0, order); //wrap round
-	string gram;
-	for (int i = 0; i < data.size(); i++) {
-		Vector<string> following;
-
-		//iterates through j words
-		for (int j = i; j < order; j++) {
-			string partfollow;
-			int k = i;
-			//goes through word until space
-			while (data[k] != ' ') {
-				partfollow += (data[k]);
-				k++;
-			}
-			following.add(partfollow);
-			i = k;
+	// creates vector "data" from s
+	std::istringstream iss (s);
+	int words = 0;
+	for (char c : s) {
+		if (c == ' ') {
+			words++;
 		}
-		gram = subWords(data, i, order);
+	}
+	words++; //adds final words for missing space
+	for (int i = 0; i < words; i++) {
+		string val;
+		iss >> val;
+		data.add(val);
+	}
 
+	// Simulates a wrap around
+	mapdata = data;
+	wrap = subVec(0, k);
+	for (string str : wrap) {
+		mapdata.add(str);
+	}
+
+	// populates the map with with the grams and following words
+	Vector<string> gram;
+	for (int i = 0; i < mapdata.size(); i++) {
+		Vector<string> following;
+		gram = subVec(i, order);
+
+		following.add(mapdata[i+1]);
 
 		if (!map.containsKey(gram)) {
 			map.put(gram, following);
 		} else {
+
+			// copies current values for key and adds new value
 			Vector<string> temp;
 			temp = map.get(gram);
 			for (int j = 0; j < temp.size(); j++) {
 				following.add(temp[j]);
 			}
+
 			map.put(gram, following);
 		}
 	}
@@ -128,52 +155,39 @@ word_model::word_model(string s, int k) {
 
 string word_model::generate(int sz) {
 
-	// copy first k characters to back to simulate wrap-around
-	string working_data = data + subWords(data, 0, order);
+	// copy first k words to back to simulate wrap-around
+	Vector<string> working_data = data;
+	for (string str : wrap) {
+		working_data.add(str);
+	}
+
 
 	// pick random k-character substring as initial seed
-	int start = rand() % data.length();
-	string seed = subWords(working_data, start, order);
+	int start = rand() % data.size();
+	Vector<string> seed = subVec(start, order);
 
 	string answer;
+	Vector<string> answerVec;
 	answer.reserve(sz);
 
 	for (int i = 0; i < sz; i++) {
 		// sets next to random string returned from map
 		string next = map.get(seed)[rand() % map.get(seed).size()];
-		answer += next;
-		seed = seed.substr(1) + next;
+		answerVec.add(next);
+		seed.remove(0);
+		seed.add(next);
+	}
+	answer = answerVec[0];
+	for (int i = 1; i < answerVec.size(); i++) {
+		answer += " " + answerVec[i];
 	}
 	return answer;
 }
 
-string word_model::subWords(string data, int a, int b) {
-	string s;
-	int k = a;
+Vector<string> word_model::subVec(int a, int b) {
+	Vector<string> vec;
 	for (int i = a; i < b; i++) {
-		while (data[k] != ' ') {
-			s += (data[k]);
-			k++;
-		}
-		k++;
-		s += ' ';
+		vec.add(data[i]);
 	}
-	return s;
-}
-
-Vector<string> word_model::stov(string s) {
-	Vector<string> v;
-	int k = a;
-	for (int i = 0; i < s.size(); i++) {
-		string part;
-		int k = i;
-		//goes through word until space
-		while (data[k] != ' ') {
-			partfollow += (s[k]);
-			k++;
-		}
-		following.add(partfollow);
-		i = k+1;
-	}
-	return v;
+	return vec;
 }
