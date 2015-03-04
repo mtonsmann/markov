@@ -90,7 +90,7 @@ int main(int argc, char* argv[]) {
 		cout << "Generated " << sz << " characters in " << (t2 - t1)/double(CLOCKS_PER_SEC) << " seconds." << endl;
 
 	} else if (model_type == "word") {
-		map_model word_model(text.str(), k);
+		word_model word_model(text.str(), k);
 
 		clock_t t1, t2;
 		t1 = clock();

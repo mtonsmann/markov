@@ -31,11 +31,11 @@ class word_model {
 public:
 	word_model(std::string s, int k);
 	std::string generate(int size);
-	Vector<std::string> subVec(int a, int b);
+	Vector<std::string> subVec(Vector<std::string> given, int a, int b);
 	Vector<std::string> stov(std::string s);
 
 	// overloads < to allow for maps of Vector<string>
-	friend bool operator <(const Vector<std::string> &a; const Vector<std::string> &b);
+	friend bool operator <(const Vector<std::string> &a, const Vector<std::string> &b);
 
 private:
 	int order;
