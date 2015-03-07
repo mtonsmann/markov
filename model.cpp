@@ -93,6 +93,8 @@ bool operator <(const Vector<std::string> &a, const Vector<std::string> &b) {
 		for (int i = 0; i < a.size(); i++) {
 			if (a[i] < b[i]) {
 				return true;
+			} else if (a[i] > b[i]) {
+				return false;
 			}
 		}
 		return false;
@@ -114,14 +116,12 @@ word_model::word_model(string s, int k) {
 			words++;
 		}
 	}
-	//cout << "test 118" << endl;
 	words++; //adds final words for missing space
 	while (!iss.eof()) {
 		string val;
 		iss >> val;
 		data.add(val);
 	}
-	//cout << "test 125" << endl;
 
 	// Simulates a wrap around
 	mapdata = data;
@@ -129,7 +129,6 @@ word_model::word_model(string s, int k) {
 	for (string str : wrap) {
 		mapdata.add(str);
 	}
-	//cout << "test 133" << endl;
 
 	// populates the map with with the grams and following words
 	Vector<string> gram;
@@ -139,49 +138,33 @@ word_model::word_model(string s, int k) {
 
 
 		following.add(mapdata[i+order]);
-		//cout << "test 142" << endl;
 
 		if (!map.containsKey(gram)) {
-			cout << gram.toString() << endl;
-			cout << "Following: " << following.toString() << endl;
-			map[gram] = following;
-			cout << "Partial map: " << map.toString() << endl;
-			//cout << "test 146" << endl;
-		} else {
-			//cout << "test 148" << endl;
+			map.put(gram, following);
 
+		} else {
 			// copies current values for key and adds new value
 			Vector<string> temp;
 			temp = map.get(gram);
-			cout << temp.toString() << endl;
-			//cout << "test 152" << endl;
 			for (int j = 0; j < temp.size(); j++) {
 				following.add(temp[j]);
 			}
-			//cout << "test 154" << endl;
-			cout << gram.toString() << endl;
-			cout << "Following: " << following.toString() << endl;
 			map[gram] =	 following;
 		}
 	}
-	//cout << "test 156" << endl;
 }
 
 string word_model::generate(int sz) {
-	cout << map.toString() << endl;
 
 	// copy first k words to back to simulate wrap-around
 	Vector<string> working_data = data;
 	for (string str : wrap) {
 		working_data.add(str);
 	}
-	cout << 172 << endl;
 
 	// pick random k-character substring as initial seed
 	int start = rand() % data.size();
 	Vector<string> seed = subVec(working_data, start, start + order);
-	cout << 177 << endl;
-	cout << seed.toString() << endl;
 
 	string answer;
 	Vector<string> answerVec;
@@ -189,17 +172,13 @@ string word_model::generate(int sz) {
 
 	for (int i = 0; i < sz; i++) {
 		// sets next to random string returned from map
-		cout << 186 << endl;
-		cout << map.get(seed).toString() << endl;
 		string next = map.get(seed)[rand() % map.get(seed).size()];
-		cout << 188 << endl;
 		answerVec.add(next);
 		seed.remove(0);
 		seed.add(next);
-		cout << 189 << endl;
 	}
 	answer = data[start];
-	cout << "test 181" << endl;
+
 	for (int i = 1; i < answerVec.size(); i++) {
 		answer += " " + answerVec[i];
 	}
