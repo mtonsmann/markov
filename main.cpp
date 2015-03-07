@@ -97,7 +97,7 @@ int main(int argc, char* argv[]) {
 		string result = word_model.generate(sz);
 		t2 = clock();
 		cout << result << endl;
-		cout << "Generated " << sz << " characters in " << (t2 - t1)/double(CLOCKS_PER_SEC) << " seconds." << endl;
+		cout << "Generated " << sz << " words in " << (t2 - t1)/double(CLOCKS_PER_SEC) << " seconds." << endl;
 
 	} else {
 		cout << "That model is not yet implemented, sorry." << endl;
